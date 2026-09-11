@@ -60,7 +60,7 @@ For better accuracy, use `medium` or `large-v3` if your hardware can handle it.
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/YOUR-USERNAME/transaura.git
+git clone https://github.com/sharif1337/TransAura.git
 cd transaura
 ```
 
