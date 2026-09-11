@@ -371,18 +371,6 @@ For online videos, the media must first be downloaded from the source platform b
 
 ---
 
-## 📜 License
-
-Add your preferred license here.
-
-For example:
-
-```text
-MIT License
-```
-
----
-
 ## 👨‍💻 Developer
 
 **Sharif Ansari**
