@@ -92,67 +92,67 @@ ffmpeg -version
 ### Transcribe a local video
 
 ```bash
-python3 transcribe_v5.py -f video.mp4
+python3 transaura.py -f video.mp4
 ```
 
 ### Transcribe an Urdu video
 
 ```bash
-python3 transcribe_v5.py -f video.mp4 --language ur
+python3 transaura.py -f video.mp4 --language ur
 ```
 
 ### Transcribe an English video
 
 ```bash
-python3 transcribe_v5.py -f video.mp4 --language en
+python3 transaura.py -f video.mp4 --language en
 ```
 
 ### Use a specific model
 
 ```bash
-python3 transcribe_v5.py -f video.mp4 --model medium
+python3 transaura.py -f video.mp4 --model medium
 ```
 
 ### Use NVIDIA GPU
 
 ```bash
-python3 transcribe_v5.py -f video.mp4 --device cuda
+python3 transaura.py -f video.mp4 --device cuda
 ```
 
 ### Force CPU
 
 ```bash
-python3 transcribe_v5.py -f video.mp4 --device cpu
+python3 transaura.py -f video.mp4 --device cpu
 ```
 
 ### Generate SRT subtitles
 
 ```bash
-python3 transcribe_v5.py -f video.mp4 --format srt
+python3 transaura.py -f video.mp4 --format srt
 ```
 
 ### Generate TXT and SRT
 
 ```bash
-python3 transcribe_v5.py -f video.mp4 --format both
+python3 transaura.py -f video.mp4 --format both
 ```
 
 ### Save output to a custom directory
 
 ```bash
-python3 transcribe_v5.py -f video.mp4 --output-dir transcripts
+python3 transaura.py -f video.mp4 --output-dir transcripts
 ```
 
 ### Specify an output filename
 
 ```bash
-python3 transcribe_v5.py -f video.mp4 --output transcripts/my_video
+python3 transaura.py -f video.mp4 --output transcripts/my_video
 ```
 
 ### Download and transcribe an online video
 
 ```bash
-python3 transcribe_v5.py -u "https://www.youtube.com/watch?v=VIDEO_ID"
+python3 transaura.py -u "https://www.youtube.com/watch?v=VIDEO_ID"
 ```
 
 The same option can be used with supported platforms such as TikTok, Facebook, Instagram and X/Twitter.
@@ -164,7 +164,7 @@ The same option can be used with supported platforms such as TikTok, Facebook, I
 To see supported language codes:
 
 ```bash
-python3 transcribe_v5.py --languages
+python3 transaura.py --languages
 ```
 
 Examples:
@@ -187,7 +187,7 @@ If the language is known, specifying it manually can improve transcription relia
 Keeps the original spoken language.
 
 ```bash
-python3 transcribe_v5.py -f video.mp4 --language en --task transcribe
+python3 transaura.py -f video.mp4 --language en --task transcribe
 ```
 
 For example:
@@ -199,7 +199,7 @@ For example:
 Whisper's built-in translation mode translates supported speech **into English**.
 
 ```bash
-python3 transcribe_v5.py -f video.mp4 --language ur --task translate
+python3 transaura.py -f video.mp4 --language ur --task translate
 ```
 
 For example:
@@ -255,7 +255,7 @@ A typical project structure:
 ```text
 transaura/
 │
-├── transcribe_v5.py
+├── transaura.py
 ├── requirements.txt
 ├── README.md
 │
@@ -298,19 +298,19 @@ Whisper models are stored separately in the Hugging Face cache.
 For the best balance between speed and accuracy:
 
 ```bash
-python3 transcribe_v5.py -f video.mp4 --model small
+python3 transaura.py -f video.mp4 --model small
 ```
 
 For higher accuracy:
 
 ```bash
-python3 transcribe_v5.py -f video.mp4 --model medium
+python3 transaura.py -f video.mp4 --model medium
 ```
 
 For maximum accuracy, if your hardware has enough resources:
 
 ```bash
-python3 transcribe_v5.py -f video.mp4 --model large-v3
+python3 transaura.py -f video.mp4 --model large-v3
 ```
 
 An NVIDIA GPU can significantly improve processing speed.
@@ -350,13 +350,13 @@ Make sure the URL is publicly accessible.
 If CUDA is unavailable, use CPU mode:
 
 ```bash
-python3 transcribe_v5.py -f video.mp4 --device cpu
+python3 transaura.py -f video.mp4 --device cpu
 ```
 
 Or let Transaura automatically select the available device:
 
 ```bash
-python3 transcribe_v5.py -f video.mp4 --device auto
+python3 transaura.py -f video.mp4 --device auto
 ```
 
 ---
