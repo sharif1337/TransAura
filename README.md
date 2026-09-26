@@ -2,7 +2,7 @@
 
 **Local video & audio transcription tool powered by Faster-Whisper.**
 
-Transaura is a lightweight Python CLI tool for converting video and audio into text locally. It supports local media files as well as videos from popular platforms such as YouTube, TikTok, Facebook, Instagram, and X/Twitter.
+Transaura is a Python CLI tool for converting local video/audio and supported online media into text. It supports YouTube, TikTok, Facebook, Instagram, X/Twitter and direct media URLs.
 
 > **Developed By Sharif Ansari**
 
@@ -11,27 +11,24 @@ Transaura is a lightweight Python CLI tool for converting video and audio into t
 ## ✨ Features
 
 - 🎙️ Local video & audio transcription
-- 🤖 Powered by **Faster-Whisper**
+- 🤖 Faster-Whisper powered
 - 🌐 YouTube, TikTok, Facebook, Instagram & X/Twitter support
-- 📁 Local media file support
-- 📝 TXT, SRT & VTT subtitle output
+- 📝 TXT, SRT, VTT & JSON output
 - ⚡ CPU & NVIDIA CUDA support
-- 🧠 Multiple Whisper model sizes
+- 🧠 Multiple Whisper models
 - 🌍 Language selection
-- 🔄 Transcription & English translation modes
-- 📊 Download and processing progress
-- 🧹 Automatic cleanup of temporary downloads
-- 📂 Custom output directory
+- 🔄 Transcription & English translation
+- 🔤 Optional Roman Urdu output with `uromanizer`
+- 📊 Download & transcription progress
+- 🧹 Automatic temporary-file cleanup
+- 📂 Custom output directory and filename
 - 🛡️ Overwrite protection
-- 🧹 Safe filename cleaning
-- 🔧 Configurable beam size
-- 💻 Fully local — no paid API required
+- 🔧 Configurable beam size and decoding candidates
+- 💻 Local transcription — no paid transcription API required
 
 ---
 
 ## 🧠 Supported Models
-
-Transaura supports the following Faster-Whisper models:
 
 | Model | Speed | Accuracy | Resource Usage |
 |---|---|---|---|
@@ -41,7 +38,7 @@ Transaura supports the following Faster-Whisper models:
 | `medium` | ⚡⚡ | ⭐⭐⭐⭐⭐ | High |
 | `large-v3` | ⚡ | ⭐⭐⭐⭐⭐ | Very High |
 
-For better accuracy, use `medium` or `large-v3` if your hardware can handle it.
+Larger models generally require more system resources.
 
 ---
 
@@ -49,8 +46,9 @@ For better accuracy, use `medium` or `large-v3` if your hardware can handle it.
 
 - Python 3.9+
 - FFmpeg
-- pip
-- Internet connection for downloading models and online videos
+- `faster-whisper`
+- `yt-dlp` for online media
+- `uromanizer` for `--roman`
 - NVIDIA GPU is optional
 
 ---
@@ -61,13 +59,19 @@ For better accuracy, use `medium` or `large-v3` if your hardware can handle it.
 
 ```bash
 git clone https://github.com/sharif1337/TransAura.git
-cd transaura
+cd TransAura
 ```
 
-### 2. Install Python dependencies
+### 2. Install dependencies
 
 ```bash
 pip3 install -r requirements.txt
+```
+
+For Roman Urdu support, if needed:
+
+```bash
+pip3 install uromanizer
 ```
 
 ### 3. Install FFmpeg
@@ -79,196 +83,102 @@ sudo apt update
 sudo apt install ffmpeg
 ```
 
-Check the installation:
-
-```bash
-ffmpeg -version
-```
-
----
-
 ## ▶️ Usage
 
-### Transcribe a local video
+### Local video/audio
 
 ```bash
 python3 transaura.py -f video.mp4
 ```
 
-### Transcribe an Urdu video
+### Urdu transcription
 
 ```bash
 python3 transaura.py -f video.mp4 --language ur
 ```
 
-### Transcribe an English video
-
-```bash
-python3 transaura.py -f video.mp4 --language en
-```
-
-### Use a specific model
+### Specific model
 
 ```bash
 python3 transaura.py -f video.mp4 --model medium
 ```
 
-### Use NVIDIA GPU
+### NVIDIA GPU
 
 ```bash
 python3 transaura.py -f video.mp4 --device cuda
 ```
 
-### Force CPU
+### CPU
 
 ```bash
 python3 transaura.py -f video.mp4 --device cpu
 ```
 
-### Generate SRT subtitles
-
-```bash
-python3 transaura.py -f video.mp4 --format srt
-```
-
-### Generate TXT and SRT
-
-```bash
-python3 transaura.py -f video.mp4 --format both
-```
-
-### Save output to a custom directory
-
-```bash
-python3 transaura.py -f video.mp4 --output-dir transcripts
-```
-
-### Specify an output filename
-
-```bash
-python3 transaura.py -f video.mp4 --output transcripts/my_video
-```
-
-### Download and transcribe an online video
+### Online video
 
 ```bash
 python3 transaura.py -u "https://www.youtube.com/watch?v=VIDEO_ID"
 ```
 
-The same option can be used with supported platforms such as TikTok, Facebook, Instagram and X/Twitter.
+The same option supports the online platforms handled by `yt-dlp` in Transaura, as well as direct media URLs.
+
+### Roman Urdu
+
+```bash
+python3 transaura.py -f video.mp4 --language ur --roman
+```
+
+Example:
+
+```bash
+python3 transaura.py -f test2.webm --model large-v3 --force --format txt --language ur --roman
+```
 
 ---
 
-## 🌍 Language Options
+## 🌍 Language & Translation
 
-To see supported language codes:
+Show supported language codes:
 
 ```bash
 python3 transaura.py --languages
 ```
 
-Examples:
-
-```bash
---language en
---language ur
---language hi
---language ar
-```
-
-If the language is known, specifying it manually can improve transcription reliability.
-
----
-
-## 🔄 Transcribe vs Translate
-
-### Transcribe
-
-Keeps the original spoken language.
+Transcribe the original language:
 
 ```bash
 python3 transaura.py -f video.mp4 --language en --task transcribe
 ```
 
-For example:
-
-**English audio → English text**
-
-### Translate
-
-Whisper's built-in translation mode translates supported speech **into English**.
+Translate supported speech into English:
 
 ```bash
 python3 transaura.py -f video.mp4 --language ur --task translate
 ```
 
-For example:
-
-**Urdu audio → English text**
-
-> Note: Whisper's built-in `translate` task does not produce Urdu translations. It is designed to translate speech into English.
+> Whisper's `translate` task translates speech **into English**; it does not translate speech into Urdu.
 
 ---
 
 ## 📤 Output Formats
 
-Transaura supports:
+Supported formats:
 
-### TXT
+- `txt` — plain transcript
+- `srt` — subtitles with timestamps
+- `vtt` — WebVTT subtitles
+- `json` — segment and transcription data
+- `both` — TXT + SRT
+- `all` — TXT + SRT + VTT + JSON
 
-Plain text transcript.
-
-```bash
---format txt
-```
-
-### SRT
-
-Subtitle file with timestamps.
+Examples:
 
 ```bash
---format srt
+python3 transaura.py -f video.mp4 --format srt
+python3 transaura.py -f video.mp4 --format both
+python3 transaura.py -f video.mp4 --format all
 ```
-
-### VTT
-
-Web Video Text Tracks subtitle format.
-
-```bash
---format vtt
-```
-
-### Both
-
-Creates TXT and SRT files.
-
-```bash
---format both
-```
-
----
-
-## 📁 File Structure
-
-A typical project structure:
-
-```text
-transaura/
-│
-├── transaura.py
-├── requirements.txt
-├── README.md
-│
-├── .downloads/
-│   └── temporary media files
-│
-└── transcripts/
-    └── generated transcripts
-```
-
-The `.downloads` folder is used only for temporary online media downloads. Temporary files are automatically removed after processing.
-
-Whisper models are stored separately in the Hugging Face cache.
 
 ---
 
@@ -276,98 +186,55 @@ Whisper models are stored separately in the Hugging Face cache.
 
 ```text
 -f, --file              Local video/audio file
--u, --url               Online video/audio URL
---model                 Whisper model
+-u, --url               Online or direct media URL
+--model                 tiny / base / small / medium / large-v3
 --device                auto / cpu / cuda
---language              Source language
+--language              Source language code
 --task                  transcribe / translate
---format                txt / srt / vtt / both
---output                Output filename/path
---output-dir            Output directory
+--roman                 Convert Urdu transcript to Roman Urdu
+--format                txt / srt / vtt / json / both / all
+--keep-video            Download full video for platform URLs
+--output                Custom output filename
+--output-dir            Custom output directory
 --clean-title           Clean output filename
---force                 Overwrite existing files
---beam-size             Whisper beam size
---languages              Show supported languages
+--force                 Overwrite existing output files
+--beam-size             Beam size (default: 5)
+--best-of               Candidate count for fallback (default: 5)
+--languages             Show supported language codes
 -h, --help              Show help
 ```
 
 ---
 
-## ⚡ Performance
-
-For the best balance between speed and accuracy:
-
-```bash
-python3 transaura.py -f video.mp4 --model small
-```
-
-For higher accuracy:
-
-```bash
-python3 transaura.py -f video.mp4 --model medium
-```
-
-For maximum accuracy, if your hardware has enough resources:
-
-```bash
-python3 transaura.py -f video.mp4 --model large-v3
-```
-
-An NVIDIA GPU can significantly improve processing speed.
-
----
-
-## 🛠️ Troubleshooting
-
-### FFmpeg not found
-
-Install FFmpeg:
-
-```bash
-sudo apt install ffmpeg
-```
-
-Then verify:
-
-```bash
-ffmpeg -version
-```
-
 ### Online video cannot be downloaded
 
-Some videos may be:
-
-- Private
-- Deleted
-- Region restricted
-- Login required
-- Unsupported by the current `yt-dlp` extractor
-
-Make sure the URL is publicly accessible.
+The source may be private, deleted, region restricted, login protected, or unsupported by the current `yt-dlp` extractor.
 
 ### CUDA error
 
-If CUDA is unavailable, use CPU mode:
+Use CPU mode:
 
 ```bash
 python3 transaura.py -f video.mp4 --device cpu
 ```
 
-Or let Transaura automatically select the available device:
+Or use automatic device selection:
 
 ```bash
 python3 transaura.py -f video.mp4 --device auto
 ```
 
+### Model download
+
+The first run of a model may take time because the model needs to be downloaded and cached.
+
 ---
 
 ## 🔒 Privacy
 
-Transaura performs transcription locally using Faster-Whisper.
+Transaura performs transcription locally using Faster-Whisper. Local media and generated transcripts are not sent to a paid transcription API.
 
-Your local media files and generated transcripts are not sent to a paid transcription API.
-
-For online videos, the media must first be downloaded from the source platform before transcription.
+For online sources, the media must first be downloaded before local transcription.
 
 ---
 
