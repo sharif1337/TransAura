@@ -68,12 +68,6 @@ cd TransAura
 pip3 install -r requirements.txt
 ```
 
-For Roman Urdu support, if needed:
-
-```bash
-pip3 install uromanizer
-```
-
 ### 3. Install FFmpeg
 
 #### Ubuntu / Debian / Kali Linux
