@@ -1,5 +1,5 @@
 faster-whisper
 yt-dlp
+uromanizer
 huggingface-hub
 tqdm
-ctranslate2
